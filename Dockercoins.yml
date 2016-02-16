@@ -1,0 +1,19 @@
+hasher:
+  image: 'acmepdx/hasher:latest'
+redis:
+  image: 'acmepdx/redis:latest'
+rng:
+  image: 'acmepdx/rng:latest'
+  target_num_containers: 3
+webui:
+  image: 'acmepdx/webui:latest'
+  links:
+    - redis
+  ports:
+    - '8000:80'
+worker:
+  image: 'acmepdx/worker:latest'
+  links:
+    - hasher
+    - redis
+    - rng

@@ -1,0 +1,28 @@
+rng:
+    image: acmepdx/rng
+    ports:
+      - "8001:80"
+
+hasher:
+    image: acmepdx/hasher
+    ports:
+      - "8002:80"
+
+webui:
+    image: acmepdx/webui
+    links:
+        - redis
+    ports:
+      - "8000:80"
+    volumes:
+      - "./webui/files/:/files/"
+
+redis:
+    image: acmepdx/redis
+
+worker:
+    image: acmepdx/worker
+    links:
+        - rng
+        - hasher
+        - redis
